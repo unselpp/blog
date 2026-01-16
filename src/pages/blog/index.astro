@@ -7,23 +7,20 @@ const blogPosts = (await getCollection('blog')).sort(
 );
 ---
 
-<BlogLayout title="Blog Posts">
-  <h1>Blog Posts</h1>
-  <ul style="list-style: none; padding: 0; margin-top: 2rem;">
+<BlogLayout title="Posts">
+  <h1>Posts</h1>
+  <ul class="post-list">
     {blogPosts.map((post) => (
-      <li style="margin-bottom: 2rem;">
-        <a href={`/blog/${post.slug}`} style="text-decoration: none; color: inherit;">
-          <h2 style="margin-bottom: 0.5rem; font-size: 1.5rem;">{post.data.title}</h2>
-          {post.data.description && (
-            <p style="color: #666; margin-bottom: 0.5rem;">{post.data.description}</p>
-          )}
-          <time style="color: #888; font-size: 0.9em;">
+      <li>
+        <a href={`/blog/${post.slug}`}>
+          <span class="post-date">
             {post.data.pubDate.toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+              month: 'short', 
+              day: 'numeric',
+              year: 'numeric'
             })}
-          </time>
+          </span>
+          <h3>{post.data.title}</h3>
         </a>
       </li>
     ))}
