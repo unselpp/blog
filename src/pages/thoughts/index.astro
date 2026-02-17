@@ -2,25 +2,27 @@
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import { getCollection } from 'astro:content';
 
-const blogPosts = (await getCollection('blog')).sort(
+const thoughtPosts = (await getCollection('thoughts')).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
 ---
 
-<BlogLayout title="Blog">
-  <h1>Blog</h1>
+<BlogLayout title="Thoughts">
+  <h1>Thoughts</h1>
+  <p>Short notes, half-formed ideas, and quick updates.</p>
+
   <ul class="post-list">
-    {blogPosts.map((post) => (
+    {thoughtPosts.map((post) => (
       <li>
-        <a href={`/blog/${post.slug}`}>
+        <a href={`/thoughts/${post.slug}`}>
+          <h3>{post.data.title || 'Untitled thought'}</h3>
           <span class="post-date">
-            {post.data.pubDate.toLocaleDateString('en-US', { 
-              month: 'short', 
+            {post.data.pubDate.toLocaleDateString('en-US', {
+              month: 'short',
               day: 'numeric',
               year: 'numeric'
             })}
           </span>
-          <h3>{post.data.title}</h3>
         </a>
       </li>
     ))}

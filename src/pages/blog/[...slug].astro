@@ -16,7 +16,6 @@ const { Content } = await post.render();
 
 <BlogLayout title={post.data.title} description={post.data.description}>
   <h1>{post.data.title}</h1>
-  {post.data.description && <p style="color: #666; font-style: italic; margin-bottom: 2rem;">{post.data.description}</p>}
+  {post.data.description && <p class="post-date"><em>{post.data.description}</em></p>}
   <Content />
 </BlogLayout>
-

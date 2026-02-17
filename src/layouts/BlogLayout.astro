@@ -5,6 +5,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -13,22 +14,72 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content={description || title} />
     <meta name="viewport" content="width=device-width" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap"
+    />
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-    </nav>
+    <header class="site-header">
+      <nav class="site-nav">
+        <a class="site-title" href="/">Talha Unsel</a>
+        <div class="nav-links">
+          <a class={currentPath.startsWith('/blog') ? 'active' : ''} href="/blog">Blog</a>
+          <a class={currentPath.startsWith('/thoughts') ? 'active' : ''} href="/thoughts">Thoughts</a>
+          <a class={currentPath === '/' ? 'active' : ''} href="/">About</a>
+          <a
+            class="social-link"
+            href="https://www.linkedin.com/in/talhaunsel/"
+            aria-label="LinkedIn profile"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path fill="currentColor" d="M20.45 20.45h-3.56v-5.58c0-1.33-.03-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.68H9.33V9h3.42v1.56h.05c.48-.9 1.64-1.86 3.37-1.86 3.61 0 4.28 2.38 4.28 5.47v6.28ZM5.31 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.09 20.45H3.53V9h3.56v11.45Z" />
+            </svg>
+          </a>
+          <button id="theme-toggle" type="button" aria-label="Toggle color theme">◐</button>
+        </div>
+      </nav>
+    </header>
     <article>
       <slot />
     </article>
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const button = document.getElementById('theme-toggle');
+        if (!button) return;
+
+        const getTheme = () => root.getAttribute('data-theme') || 'light';
+        const setTheme = (theme) => {
+          root.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+          button.textContent = theme === 'dark' ? '☀' : '◐';
+        };
+
+        setTheme(getTheme());
+        button.addEventListener('click', () => {
+          setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+        });
+      })();
+    </script>
   </body>
 </html>
 
-<style>
+<style is:global>
   @import '../styles/global.css';
 </style>
-

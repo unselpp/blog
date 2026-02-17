@@ -1,32 +1,37 @@
 ---
 import BlogLayout from '../layouts/BlogLayout.astro';
+import AboutContent from '../components/AboutContent.astro';
 import { getCollection } from 'astro:content';
 
 const blogPosts = await getCollection('blog');
-const allPosts = blogPosts
+
+const latestBlog = blogPosts
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
-<BlogLayout title="My Blog">
-  <h1>My Blog</h1>
-  
-  {allPosts.length > 0 && (
-    <ul class="post-list">
-      {allPosts.map((post) => (
-        <li>
-          <a href={`/blog/${post.slug}`}>
-            <span class="post-date">
-              {post.data.pubDate.toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric',
-                year: 'numeric'
-              })}
-            </span>
-            <h3>{post.data.title}</h3>
-          </a>
-        </li>
-      ))}
-    </ul>
+<BlogLayout title="About">
+  <AboutContent />
+
+  {latestBlog.length > 0 && (
+    <>
+      <h2>Recent on my blog</h2>
+      <ul class="post-list recent-blog-list">
+        {latestBlog.slice(0, 4).map((post) => (
+          <li>
+            <a href={`/blog/${post.slug}`}>
+              <span class="post-date">
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}
+              </span>
+              <span>{post.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/blog">View all posts</a></p>
+    </>
   )}
 </BlogLayout>
-
