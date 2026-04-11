@@ -14,7 +14,7 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<BlogLayout title={post.data.title || 'Thought'} description={post.data.title}>
+<BlogLayout title={post.data.title || 'Thought'} description={post.data.title || ''}>
   <h1>{post.data.title || 'Thought'}</h1>
   <p class="post-date">
     {post.data.pubDate.toLocaleDateString('en-US', {

@@ -20,6 +20,12 @@ html[data-theme='dark'] {
   --link-hover: #b2c9ff;
   --code-bg: #272c33;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+  --astro-code-color: var(--shiki-dark);
+  --astro-code-bg: var(--shiki-dark-bg);
+}
+
+html[data-theme='dark'] .astro-code span {
+  color: var(--shiki-dark) !important;
 }
 
 * {
