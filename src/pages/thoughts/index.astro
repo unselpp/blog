@@ -14,7 +14,7 @@ const thoughtPosts = (await getCollection('thoughts')).sort(
   <ul class="post-list">
     {thoughtPosts.map((post) => (
       <li>
-        <a href={`/thoughts/${post.slug}`}>
+        <a href={`/thoughts/${post.id}`}>
           <h3>{post.data.title || 'Untitled thought'}</h3>
           <span class="post-date">
             {post.data.pubDate.toLocaleDateString('en-US', {

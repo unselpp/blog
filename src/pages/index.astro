@@ -18,7 +18,7 @@ const latestBlog = blogPosts
       <ul class="post-list recent-blog-list">
         {latestBlog.slice(0, 4).map((post) => (
           <li>
-            <a href={`/blog/${post.slug}`}>
+            <a href={`/blog/${post.id}`}>
               <span class="post-date">
                 {post.data.pubDate.toLocaleDateString('en-US', {
                   month: 'short',

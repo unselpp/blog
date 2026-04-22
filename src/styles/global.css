@@ -173,6 +173,10 @@ pre {
   border: 1px solid var(--line);
 }
 
+pre.astro-code {
+  background-color: var(--code-bg) !important;
+}
+
 pre code {
   background: transparent;
   padding: 0;
